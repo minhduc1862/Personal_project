@@ -1,0 +1,93 @@
+﻿@{
+    Layout = "~/Views/Shared/LayoutTrangChu.cshtml";
+}
+<style>
+    .login-container {
+        margin-top: 5%;
+        margin-bottom: 5%;
+    }
+
+    .login-form-1 {
+        padding: 5%;
+        box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+    }
+
+        .login-form-1 h3 {
+            text-align: center;
+            color: #333;
+        }
+
+    .login-container form {
+        padding: 10%;
+    }
+
+    .btnSubmit {
+        width: 50%;
+        border-radius: 1rem;
+        padding: 1.5%;
+        border: none;
+        cursor: pointer;
+    }
+
+    .login-form-1 .btnSubmit {
+        font-weight: 600;
+        color: #fff;
+        background-color: #0062cc;
+    }
+
+    .login-form-1 .ForgetPwd {
+        color: #0062cc;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .title-custom {
+        font-size: 30px;
+        font-weight: bold;
+    }
+
+    .subtitle-custom {
+        font-size: 24px;
+        text-align: center;
+        color: #cfc4c4;
+    }
+</style>
+<div class="container login-container">
+
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            @if (!String.IsNullOrEmpty(Context.Request.Query["notify"]) && Context.Request.Query["notify"] == "email-exists")
+            {
+                <div class="alert alert-danger">Email đã tồn tại</div>
+            }
+            @if (!String.IsNullOrEmpty(Context.Request.Query["notify"]) && Context.Request.Query["notify"] == "success")
+            {
+                <div class="alert alert-success">Đăng kí thành công</div>
+            }
+            <div class="login-form-1">
+                <h3 class="title-custom">Create an account</h3>
+                <h4 class="subtitle-custom">Personal information</h4>
+                <form action="/Account/RegisterPost" method="post">
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="Email" required placeholder="Your Email *" />
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" name="Password" required placeholder="Your Password *" />
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="Name" required placeholder="Your Name *" />
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="Phone" required placeholder="Your Phone *" />
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="Address" required placeholder="Your Address *" />
+                    </div>
+                    <div class="form-group text-center mt-4">
+                        <input type="submit" class="btnSubmit" value="Register" name="register" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

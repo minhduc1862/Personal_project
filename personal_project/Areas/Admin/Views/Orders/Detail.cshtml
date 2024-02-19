@@ -1,0 +1,65 @@
+﻿@{
+    Layout = "~/Areas/Admin/Views/Shared/Layout.cshtml";
+}
+@using System.Globalization;
+@using personal_project.Models
+@functions{
+    public MyDbContext db = new MyDbContext();
+    public ItemCustomer GetCustomers(int _CustomerId)
+    {
+        ItemCustomer record = db.Customers.Where(item => item.Id == _CustomerId).FirstOrDefault();
+        return record != null ? record : new ItemCustomer();
+    }
+    public ItemOrder GetOrders(int _OrderId)
+    {
+        ItemOrder record = db.Orders.Where(item => item.Id == _OrderId).FirstOrDefault();
+        return record != null ? record : new ItemOrder();
+    }
+    public ItemProduct GetProducts(int _ProductId)
+    {
+        ItemProduct record = db.Products.Where(item => item.Id == _ProductId).FirstOrDefault();
+        return record != null ? record : new ItemProduct();
+    }
+}
+<div class="col-md-12">
+    @{
+        ItemOrder recordOrders = GetOrders(ViewBag.OrderId);
+    }
+    <div style="margin-bottom:10px;">
+        <a href="/Admin/Orders" class="btn btn-danger">Quay lại</a>&nbsp;&nbsp;
+        @if (recordOrders.Status == 0)
+        {
+            <a href="/Admin/Orders/Delivery/@ViewBag.OrderId" class="btn btn-primary">Giao hàng</a>
+        }
+    </div>
+    <div class="card">
+        <div class="card-header bg-primary text-white align-items-center">Order detail</div>
+        <div class="card-body">
+            <table class="table table-bordered table-hover">
+                <tr>
+                    <th style="width:100px;">Photo</th>
+                    <th>Name</th>
+                    <th style="width:150px;">Price</th>
+                    <th style="width:100px;">Quantity</th>
+                    <th style="width:100px;">Size</th>
+                </tr>
+                @foreach (var item in Model)
+                {
+                    ItemProduct recordProducts = GetProducts(item.ProductId);
+                    <tr>
+                        <td>
+                            @if (recordProducts.Photo != null && File.Exists(Directory.GetCurrentDirectory() + "\\wwwroot\\Upload\\Products\\" + recordProducts.Photo))
+                            {
+                                <img src="~/Upload/Products/@recordProducts.Photo" style="width:100px;" />
+                            }
+                        </td>
+                        <td>@recordProducts.Name</td>
+                        <td>$ @(item.Quantity * (recordProducts.Price - (recordProducts.Price * recordProducts.Discount) / 100))</td>
+                        <td style="text-align:center;">@item.Quantity</td>
+                        <td style="text-align:center;">@item.Size</td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+</div>

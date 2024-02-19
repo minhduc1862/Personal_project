@@ -1,0 +1,64 @@
+﻿@using System.Globalization
+@using personal_project.Models
+@using X.PagedList.Mvc.Core
+@model X.PagedList.IPagedList<ItemProduct>
+
+@{
+    Layout = "~/Views/Shared/LayoutTrangTrong.cshtml";
+}
+
+<div class="col-lg-9">
+    <div class="shop__product__option">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="shop__product__option__left">
+                    <p>Key: @ViewBag.key</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="product__item">
+                    <div class="product__item__pic set-bg" data-setbg="/Upload/Products/@item.Photo">
+                    </div>
+                    <div class="product__item__text">
+                        <a href="/WishList/Add/@item.Id"><i class="fa-regular fa-heart fa-lg" style="float:right;cursor:pointer;"></i></a>
+                        <a href="/Products/Detail/@item.Id"><h6 style="width:250px;">@item.Name</h6></a>
+                        <div class="star-wrapper">
+                            <a href="/Products/Rate/@item.Id?star=5" class="fas fa-star s5"></a>
+                            <a href="/Products/Rate/@item.Id?star=4" class="fas fa-star s4"></a>
+                            <a href="/Products/Rate/@item.Id?star=3" class="fas fa-star s3"></a>
+                            <a href="/Products/Rate/@item.Id?star=2" class="fas fa-star s2"></a>
+                            <a href="/Products/Rate/@item.Id?star=1" class="fas fa-star s1"></a>
+                        </div>
+                        <h5>$ @(item.Price - (item.Price * item.Discount) / 100)</h5>
+                        <div class="product__color__select">
+                            <label for="pc-4">
+                                <input type="radio" id="pc-4">
+                            </label>
+                            <label class="active black" for="pc-5">
+                                <input type="radio" id="pc-5">
+                            </label>
+                            <label class="grey" for="pc-6">
+                                <input type="radio" id="pc-6">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="product__pagination">
+                @for (int i = 1; i < Model.PageCount + 1; i++)
+                {
+                    <a href="/Products/SearchName?page=@i&key=@ViewBag.key">@i</a>
+                }
+            </div>
+        </div>
+    </div>
+</div>

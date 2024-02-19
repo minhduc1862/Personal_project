@@ -1,0 +1,49 @@
+﻿.product__details__pic
+{
+    margin-bottom: 80px;
+}
+
+.product__item__text a {
+    position: static;
+    opacity: 1;
+    visibility: visible;
+    color: gray;
+}
+
+.product__item:hover .product__item__text h6 {
+    opacity: 1;
+}
+
+.fa-heart {
+    color: #000;
+}
+
+.star-wrapper {
+    margin-left: 4px;
+    direction: rtl;
+}
+
+    .star-wrapper a:hover {
+        color: yellow;
+        transform: scale(1.3);
+    }
+
+.s1:hover ~ a {
+    color: yellow;
+}
+
+.s2:hover ~ a {
+    color: yellow;
+}
+
+.s3:hover ~ a {
+    color: yellow;
+}
+
+.s4:hover ~ a {
+    color: yellow;
+}
+
+.s5:hover ~ a {
+    color: yellow;
+}

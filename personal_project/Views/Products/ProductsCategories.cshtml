@@ -1,0 +1,81 @@
+﻿@{
+    Layout = "~/Views/Shared/LayoutTrangTrong.cshtml";
+}
+
+<div class="col-lg-9">
+    <div class="shop__product__option">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="shop__product__option__left">
+                    <p>Showing 1–12 of 126 results</p>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="shop__product__option__right">
+                    <p>Sort by Price:</p>
+                    <select>
+                        <option value="">Low To High</option>
+                        <option value="">$0 - $55</option>
+                        <option value="">$55 - $100</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="product__item">
+                    <div class="product__item__pic set-bg" data-setbg="/Upload/Products/@item.Photo">
+                        <ul class="product__hover">
+                            <li><a href="#"><img src="~/Frontend/img/icon/heart.png" alt=""></a></li>
+                            @* <li>
+                                <a href="#"><img src="~/Frontend/img/icon/compare.png" alt=""><span>Compare</span></a>
+                            </li> *@
+                            <li><a href="/Products/Detail/@item.Id"><img src="~/Frontend/img/icon/search.png" alt=""></a></li>
+                        </ul>
+                    </div>
+                    <div class="product__item__text">
+                        <h6>@item.Name</h6>
+                        <a href="#" class="add-cart">+ Add To Cart</a>
+                        <div class="rating">
+                            <i class="fa fa-star-o"></i>
+                            <i class="fa fa-star-o"></i>
+                            <i class="fa fa-star-o"></i>
+                            <i class="fa fa-star-o"></i>
+                            <i class="fa fa-star-o"></i>
+                        </div>
+                        <h5>$@(item.Price - (item.Price * item.Discount) / 100)</h5>
+                        <div class="product__color__select">
+                            <label for="pc-4">
+                                <input type="radio" id="pc-4">
+                            </label>
+                            <label class="active black" for="pc-5">
+                                <input type="radio" id="pc-5">
+                            </label>
+                            <label class="grey" for="pc-6">
+                                <input type="radio" id="pc-6">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="product__pagination">
+                @* <a class="active" href="#">1</a>
+                <a href="#">2</a>
+                <a href="#">3</a>
+                <span>...</span>
+                <a href="#">21</a> *@
+                @for(int i = 1; i < Model.PageCount + 1; i++)
+                {
+                    <a href="/Products/Categories/@ViewBag.CategoryId?page=@i">@i</a>
+                }
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,80 @@
+﻿@using X.PagedList.Mvc.Core
+@using personal_project.Models
+@{
+    // import file Layout.cshtml vào đây
+    Layout = "~/Areas/Admin/Views/Shared/Layout.cshtml";
+}
+
+@functions
+{
+    public MyDbContext db = new MyDbContext();
+    public List<ItemImage> GetSubImages(int _ProductId)
+    {
+        var result = db.Images.Where(item => item.ProductId == _ProductId).ToList();
+        return result;
+    }
+}
+
+<div class="col-md-12">
+    <div class="panel panel-primary">
+        <div class="panel-heading">List Product</div>
+        <div class="panel-body">
+            <table class="table table-bordered table-hover">
+                <tr>
+                    <th style="width:100px;">Photo</th>
+                    <th>Name</th>
+                    <th style="width:470px;">Sub Image</th>
+                    <th style="width:120px;"></th>
+                </tr>
+                @foreach (var row in Model)
+                {
+                    <tr>
+                        <td>
+                            @if (!String.IsNullOrEmpty(row.Photo))
+                            {
+                                <img src="~/Upload/Products/@row.Photo" style="width:100px;">
+                            }
+                        </td>
+                        <td>@row.Name</td>
+                        <td>
+                            <div style="text-align:center; display:flex;">
+                                @{
+                                    List<ItemImage> listSubImages = GetSubImages(row.Id);
+                                    if (listSubImages.Any())
+                                    {
+                                        foreach (var item in listSubImages)
+                                        {
+                                            <div style="display:grid; margin-right:20px;">
+                                                <img src="~/Upload/Sub-images/@item.Photo" style="width:100px;" />
+                                                <a href="/Admin/SubImages/Delete/@item.Id">Delete</a>
+                                            </div>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <text>Chưa có ảnh</text>
+                                    }
+                                }
+                            </div>
+                        </td>
+                        <td style="text-align: center;">
+                            <a href="#" onclick="open_file()">Add</a>
+                            <form action="/Admin/SubImages/Add/@row.Id" id="upload_image" method="post" enctype="multipart/form-data">
+                                <input type="file" name="Images" id='input_file' multiple="multiple" accept=".jpg,.png,.gif" hidden />
+                            </form>
+                            <script src="~/Frontend/js/jquery-3.3.1.min.js"></script>
+                            <script>
+                                function open_file() {
+                                    $('#input_file').click();
+                                }
+                                $("#input_file").on("change", function () {
+                                    $("#upload_image").submit();
+                                });
+                            </script>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+</div>
